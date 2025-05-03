@@ -27,7 +27,7 @@ output_details = interpreter.get_output_details()
 st.title("Sistem Prediksi Risiko Banjir")
 st.write("Masukkan faktor-faktor lingkungan berikut untuk memprediksi risiko banjir.")
 
-# Daftar input (sesuai urutan kolom pada dataset flood.csv)
+# Form input pengguna (number_input)
 input_labels = [
     "MonsoonIntensity", "TopographyDrainage", "RiverManagement", "Deforestation",
     "Urbanization", "ClimateChange", "DamsQuality", "Siltation",
@@ -36,27 +36,26 @@ input_labels = [
     "Watersheds", "DeterioratingInfrastructure", "PopulationScore", "WetlandLoss"
 ]
 
-# Ambil input pengguna
 user_input = []
 for label in input_labels:
-    value = st.slider(label, min_value=0, max_value=10, value=5)
+    value = st.number_input(label, min_value=0.0, max_value=10.0, value=5.0, step=1.0)
     user_input.append(value)
 
+# Prediksi
 if st.button("Prediksi Risiko Banjir"):
     input_data = np.array([user_input])
     input_scaled = scaler.transform(input_data).astype(np.float32)
 
     interpreter.set_tensor(input_details[0]['index'], input_scaled)
     interpreter.invoke()
-    prediction = interpreter.get_tensor(output_details[0]['index'])[0][0]
+    prediction = interpreter.get_tensor(output_details[0]['index'])[0][0]  # Misal output 1 float
 
-    # Kategorisasi hasil
+    # Klasifikasi risiko
     if prediction < 0.4:
-        category = "RENDAH"
+        kategori = "RENDAH"
     elif prediction < 0.7:
-        category = "SEDANG"
+        kategori = "SEDANG"
     else:
-        category = "TINGGI"
+        kategori = "TINGGI"
 
-    st.success(f"Probabilitas banjir: **{prediction:.3f}**")
-    st.info(f"Kategori risiko: **{category}**")
+    st.success(f"Tingkat Risiko Banjir: **{kategori}**")
