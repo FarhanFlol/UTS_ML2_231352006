@@ -62,6 +62,6 @@ if st.button("Prediksi Risiko Banjir"):
     prediction = interpreter.get_tensor(output_details[0]['index'])
     
     predicted_label = np.argmax(prediction)
-    crop_name = label_encoder.inverse_transform([predicted_label])[0]
+    flood_prediction = label_encoder.inverse_transform([predicted_label])[0]
 
-    st.success(f"Resiko Banjir: **{crop_name.upper()}**")
+    st.success(f"Resiko Banjir: **{flood_prediction.upper()}**")
