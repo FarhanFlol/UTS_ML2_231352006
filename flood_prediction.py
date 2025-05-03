@@ -64,4 +64,4 @@ if st.button("Prediksi Risiko Banjir"):
     predicted_label = np.argmax(prediction)
     flood_prediction = label_encoder.inverse_transform([predicted_label])[0]
 
-    st.success(f"Resiko Banjir: **{flood_prediction.upper()}**")
+    st.success(f"Resiko Banjir: **{str(flood_prediction).upper()}**")
