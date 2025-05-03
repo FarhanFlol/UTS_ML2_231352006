@@ -45,7 +45,7 @@ CoastalVulnerability = st.number_input("Coastal Vulnerability", min_value=0.0, m
 Landslides = st.number_input("Landslides", min_value=0.0, max_value=10.0, value=5.0)
 Watersheds = st.number_input("Watersheds", min_value=0.0, max_value=10.0, value=5.0)
 DeterioratingInfrastructure = st.number_input("Deteriorating Infrastructure", min_value=0.0, max_value=10.0, value=5.0)
-PopulationScore = st.number_input("Population Score", min_value=0.0, max_value=10.0, value=5.0)
+PopulationScore = st.number_input("Population Score", min_value=0.0, max_value=20.0, value=5.0)
 WetlandLoss = st.number_input("Wetland Loss", min_value=0.0, max_value=10.0, value=5.0)
 
 # Prediksi
