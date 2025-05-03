@@ -61,7 +61,14 @@ if st.button("Prediksi Risiko Banjir"):
     interpreter.invoke()
     prediction = interpreter.get_tensor(output_details[0]['index'])
     
-    predicted_label = np.argmax(prediction)
-    flood_prediction = label_encoder.inverse_transform([predicted_label])[0]
+    predicted_value = prediction[0][0]  # Asume the prediction value is in the first index
+    
+    # Kategorikan hasil prediksi sesuai dengan nilai yang sudah ditentukan
+    if predicted_value < 0.45:
+        flood_prediction = "RENDAH"
+    elif 0.45 <= predicted_value < 0.55:
+        flood_prediction = "SEDANG"
+    else:
+        flood_prediction = "TINGGI"
 
     st.success(f"Resiko Banjir: **{str(flood_prediction).upper()}**")
