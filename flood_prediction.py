@@ -51,9 +51,9 @@ if st.button("Prediksi Risiko Banjir"):
     prediction = interpreter.get_tensor(output_details[0]['index'])[0][0]  # Misal output 1 float
 
     # Klasifikasi risiko
-    if prediction < 0.4:
+    if prediction <= 0.45:
         kategori = "RENDAH"
-    elif prediction < 0.7:
+    elif prediction <= 0.60:
         kategori = "SEDANG"
     else:
         kategori = "TINGGI"
