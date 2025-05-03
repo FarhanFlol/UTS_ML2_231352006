@@ -57,19 +57,11 @@ if st.button("Prediksi Risiko Banjir"):
     Watersheds, DeterioratingInfrastructure, PopulationScore, WetlandLoss]])
     
     input_scaled = scaler.transform(input_data).astype(np.float32)
-
     interpreter.set_tensor(input_details[0]['index'], input_scaled)
     interpreter.invoke()
+    prediction = interpreter.get_tensor(output_details[0]['index'])
     
-    # Assuming the prediction is a probability value
-    prediction = interpreter.get_tensor(output_details[0]['index'])[0]  # Use the first prediction if it's an array
+    predicted_label = np.argmax(prediction)
+    crop_name = label_encoder.inverse_transform([predicted_label])[0]
 
-    # Klasifikasi risiko
-    if prediction <= 0.45:
-        kategori = "RENDAH"
-    elif prediction <= 0.60:
-        kategori = "SEDANG"
-    else:
-        kategori = "TINGGI"
-
-    st.success(f"Tingkat Risiko Banjir: **{kategori}**")
+    st.success(f"Resiko Banjir: **{crop_name.upper()}**")
