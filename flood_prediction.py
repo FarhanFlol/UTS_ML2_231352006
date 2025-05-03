@@ -55,14 +55,14 @@ if st.button("Prediksi Risiko Banjir"):
     AgriculturalPractices, Encroachments, WasteDisposal, LandUseChange,
     IndustrialActivity, DrainageSystems, CoastalVulnerability, Landslides,
     Watersheds, DeterioratingInfrastructure, PopulationScore, WetlandLoss]])
+    
     input_scaled = scaler.transform(input_data).astype(np.float32)
 
     interpreter.set_tensor(input_details[0]['index'], input_scaled)
     interpreter.invoke()
-    prediction = interpreter.get_tensor(output_details[0]['index'])
-
-    predicted_label = np.argmax(prediction)
-    crop_name = label_encoder.inverse_transform([predicted_label])[0]
+    
+    # Assuming the prediction is a probability value
+    prediction = interpreter.get_tensor(output_details[0]['index'])[0]  # Use the first prediction if it's an array
 
     # Klasifikasi risiko
     if prediction <= 0.45:
