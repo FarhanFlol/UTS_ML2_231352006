@@ -56,6 +56,9 @@ if st.button("Prediksi Risiko Banjir"):
     flood_prediction = label_encoder.inverse_transform([predicted_label])[0]
 
     st.success(f"Resiko Banjir: **{str(flood_prediction).upper()}**")
-    st.write("RENDAH: Untuk nilai di bawah 0.45")
-    st.write("SEDANG: Untuk nilai antara 0.45 dan 0.55")
-    st.write("TINGGI: Untuk nilai 0.55 dan lebih besar")
+    if flood_prediction < 0.45:
+        st.write("Resiko Banjir: RENDAH (Nilai di bawah 0.45)")
+    elif 0.45 <= flood_prediction < 0.55:
+        st.write("Resiko Banjir: SEDANG (Nilai antara 0.45 dan 0.55)")
+    else:
+        st.write("Resiko Banjir: TINGGI (Nilai 0.55 dan lebih besar)")
