@@ -27,28 +27,42 @@ output_details = interpreter.get_output_details()
 st.title("Sistem Prediksi Risiko Banjir")
 st.write("Masukkan faktor-faktor lingkungan berikut untuk memprediksi risiko banjir.")
 
-# Form input pengguna (number_input)
-input_labels = [
-    "MonsoonIntensity", "TopographyDrainage", "RiverManagement", "Deforestation",
-    "Urbanization", "ClimateChange", "DamsQuality", "Siltation",
-    "AgriculturalPractices", "Encroachments", "WasteDisposal", "LandUseChange",
-    "IndustrialActivity", "DrainageSystems", "CoastalVulnerability", "Landslides",
-    "Watersheds", "DeterioratingInfrastructure", "PopulationScore", "WetlandLoss"
-]
-
-user_input = []
-for label in input_labels:
-    value = st.number_input(label, min_value=0.0, max_value=10.0, value=5.0, step=1.0)
-    user_input.append(value)
+MonsoonIntensity = st.number_input("Monsoon Intensity", min_value=0.0, max_value=10.0, value=5.0)
+TopographyDrainage = st.number_input("Topography & Drainage", min_value=0.0, max_value=10.0, value=5.0)
+RiverManagement = st.number_input("River Management", min_value=0.0, max_value=10.0, value=5.0)
+Deforestation = st.number_input("Deforestation", min_value=0.0, max_value=10.0, value=5.0)
+Urbanization = st.number_input("Urbanization", min_value=0.0, max_value=10.0, value=5.0)
+ClimateChange = st.number_input("Climate Change", min_value=0.0, max_value=10.0, value=5.0)
+DamsQuality = st.number_input("Dams Quality", min_value=0.0, max_value=10.0, value=5.0)
+Siltation = st.number_input("Siltation", min_value=0.0, max_value=10.0, value=5.0)
+AgriculturalPractices = st.number_input("Agricultural Practices", min_value=0.0, max_value=10.0, value=5.0)
+Encroachments = st.number_input("Encroachments", min_value=0.0, max_value=10.0, value=5.0)
+WasteDisposal = st.number_input("Waste Disposal", min_value=0.0, max_value=10.0, value=5.0)
+LandUseChange = st.number_input("Land Use Change", min_value=0.0, max_value=10.0, value=5.0)
+IndustrialActivity = st.number_input("Industrial Activity", min_value=0.0, max_value=10.0, value=5.0)
+DrainageSystems = st.number_input("Drainage Systems", min_value=0.0, max_value=10.0, value=5.0)
+CoastalVulnerability = st.number_input("Coastal Vulnerability", min_value=0.0, max_value=10.0, value=5.0)
+Landslides = st.number_input("Landslides", min_value=0.0, max_value=10.0, value=5.0)
+Watersheds = st.number_input("Watersheds", min_value=0.0, max_value=10.0, value=5.0)
+DeterioratingInfrastructure = st.number_input("Deteriorating Infrastructure", min_value=0.0, max_value=10.0, value=5.0)
+PopulationScore = st.number_input("Population Score", min_value=0.0, max_value=10.0, value=5.0)
+WetlandLoss = st.number_input("Wetland Loss", min_value=0.0, max_value=10.0, value=5.0)
 
 # Prediksi
 if st.button("Prediksi Risiko Banjir"):
-    input_data = np.array([user_input])
+    input_data = np.array([[MonsoonIntensity, TopographyDrainage, RiverManagement, Deforestation,
+    Urbanization, ClimateChange, DamsQuality, Siltation,
+    AgriculturalPractices, Encroachments, WasteDisposal, LandUseChange,
+    IndustrialActivity, DrainageSystems, CoastalVulnerability, Landslides,
+    Watersheds, DeterioratingInfrastructure, PopulationScore, WetlandLoss]])
     input_scaled = scaler.transform(input_data).astype(np.float32)
 
     interpreter.set_tensor(input_details[0]['index'], input_scaled)
     interpreter.invoke()
-    prediction = interpreter.get_tensor(output_details[0]['index'])[0][0]  # Misal output 1 float
+    prediction = interpreter.get_tensor(output_details[0]['index'])
+
+    predicted_label = np.argmax(prediction)
+    crop_name = label_encoder.inverse_transform([predicted_label])[0]
 
     # Klasifikasi risiko
     if prediction <= 0.45:
